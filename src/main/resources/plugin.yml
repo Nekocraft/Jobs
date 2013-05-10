@@ -1,29 +1,29 @@
 name: Jobs
-description: Job plugin for bukkit
+description: Bukkit 职业插件
 main: me.zford.jobs.bukkit.JobsPlugin
 version: ${build.version}
 author: phrstbrn
 softdepend: [Vault]
 commands:
   jobs:
-    description: Jobs
+    description: 职业插件相关指令
     usage: /jobs
 permissions:
   jobs.*:
-    description: Grants access to all Jobs commands
+    description: 职业插件全部权限
     children:
       jobs.admin: true
   jobs.admin:
-    description: Grants permissions as an admin
+    description: 职业插件管理员权限
     default: false
     children:
       jobs.use: true
       jobs.command.*: true
   jobs.use:
-    description: Grants ability to use this plugin
+    description: 职业插件使用权限
     default: true
   jobs.command.*:
-    description: Grants player access to all commands
+    description: 职业插件全部指令权限
     default: false
     children:
       jobs.command.browse: true
@@ -45,56 +45,56 @@ permissions:
       jobs.command.reload: true
       jobs.command.help: true
   jobs.command.browse:
-    description: Grants access to the browse command
+    description: 职业插件浏览指令权限
     default: true
   jobs.command.stats:
-    description: Grants access to the stats command
+    description: 职业插件状态指令使用权限
     default: true
   jobs.command.admin.stats:
-    description: Grants access to the stats command on other players
+    description: 职业插件全部状态指令使用权限
     default: true
   jobs.command.join:
-    description: Grants access to the join command
+    description: 职业插件入职指令使用权限
     default: true
   jobs.command.leave:
-    description: Grants access to the leave command
+    description: 职业插件离职指令使用权限
     default: true
   jobs.command.leaveall:
-    description: Grants access to the leaveall command
+    description: 职业插件全部离职指令使用权限
     default: true
   jobs.command.info:
-    description: Grants access to the info command
+    description: 职业插件信息指令使用权限
     default: true
   jobs.command.playerinfo:
-    description: Grants access to the playerinfo command
+    description: 职业插件玩家信息指令使用权限
     default: op
   jobs.command.fire:
-    description: Grants access to the fire command
+    description: 职业插件开除指令使用权限
     default: op
   jobs.command.fireall:
-    description: Grants access to the fireall command
+    description: 职业插件全部开除指令使用权限
     default: op
   jobs.command.employ:
-    description: Grants access to the employ command
+    description: 职业插件采用指令使用权限
     default: op
   jobs.command.promote:
-    description: Grants access to the promote command
+    description: 职业插件升值指令使用权限
     default: op
   jobs.command.demote:
-    description: Grants access to the demote command
+    description: 职业插件降职指令使用权限
     default: op
   jobs.command.grantxp:
-    description: Grants access to the grantxp command
+    description: 职业插件提升经验指令使用权限
     default: op
   jobs.command.removexp:
-    description: Grants access to the removexp command
+    description: 职业插件降低经验指令使用权限
     default: op
   jobs.command.transfer:
-    description: Grants access to the transfer command
+    description: 职业插件转让指令使用权限
     default: op
   jobs.command.reload:
-    description: Grants access to the reload command
+    description: 职业插件重新载入指令使用权限
     default: op
   jobs.command.help:
-    description: Grants access to the help command
+    description: 职业插件帮助指令使用权限
     default: true  

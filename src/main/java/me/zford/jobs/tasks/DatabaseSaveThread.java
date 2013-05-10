@@ -32,7 +32,7 @@ public class DatabaseSaveThread extends Thread {
 
     @Override
     public void run() {
-        Jobs.getPluginLogger().info("Started database save task");
+        Jobs.getPluginLogger().info("开始保存配置");
         while (running) {
             try {
                 sleep(sleep);
@@ -48,7 +48,7 @@ public class DatabaseSaveThread extends Thread {
                 running = false;
             }
         }
-        Jobs.getPluginLogger().info("Database save task shutdown");
+        Jobs.getPluginLogger().info("配置保存完毕");
         
     }
     

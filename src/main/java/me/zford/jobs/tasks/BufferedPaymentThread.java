@@ -32,7 +32,7 @@ public class BufferedPaymentThread extends Thread {
 
     @Override
     public void run() {
-        Jobs.getPluginLogger().info("Started buffered payment thread");
+        Jobs.getPluginLogger().info("开始与经济插件交互");
         while (running) {
             try {
                 sleep(sleep);
@@ -50,7 +50,7 @@ public class BufferedPaymentThread extends Thread {
                 running = false;
             }
         }
-        Jobs.getPluginLogger().info("Buffered payment thread shutdown");   
+        Jobs.getPluginLogger().info("停止与经济插件交互");
     }
     
     public void shutdown() {

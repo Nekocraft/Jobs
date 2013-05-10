@@ -68,82 +68,78 @@ public class BukkitJobsConfiguration extends JobsConfiguration {
         
         CommentedYamlConfiguration writer = new CommentedYamlConfiguration();
         StringBuilder header = new StringBuilder();
-        header.append("General configuration.");
+        header.append("常规配置.");
         header.append(System.getProperty("line.separator"));
-        header.append("  The general configuration for the jobs plugin mostly includes how often the plugin");
+        header.append("  职业插件的常规配置主要包括插件保存用户数据的间隔");
         header.append(System.getProperty("line.separator"));
-        header.append("saves user data (when the user is in the game), the storage method, whether");
+        header.append("数据库的储存方法, 是否在玩家升级时广播消息给其他玩家");
         header.append(System.getProperty("line.separator"));
-        header.append("to broadcast a message to the server when a user goes up a skill level.");
-        header.append(System.getProperty("line.separator"));
-        header.append("  It also allows admins to set the maximum number of jobs a player can have at");
-        header.append(System.getProperty("line.separator"));
-        header.append("any one time.");
+        header.append("  它还允许管理员设置玩家最多能够担任的职业数量");
         header.append(System.getProperty("line.separator"));
         
         config.options().copyDefaults(true);
         
         writer.options().header(header.toString());
         
-        writer.addComment("locale-language", "Default language.  Use your languages two digit ISO 639-1 code, and optionally followed by the ISO-3166-1 country code.",
-                "Example: en, en_US");
+        writer.addComment("locale-language", "默认语言. 使用标准ISO639-1语言代码,和标准ISO-3166-1国家代码.",
+                "如: en, en_US");
         config.addDefault("locale-language", Locale.getDefault().getLanguage());
 
-        writer.addComment("storage-method", "storage method, can be MySQL, sqlite, h2");
+        writer.addComment("storage-method", "储存方式, 可以是 MySQL, sqlite, h2");
         config.addDefault("storage-method", "sqlite");
         
-        writer.addComment("mysql-username", "Requires Mysql.");
+        writer.addComment("mysql-username", "需要安装Mysql.");
         config.addDefault("mysql-username", "root");        
         config.addDefault("mysql-password", "");
         config.addDefault("mysql-url", "jdbc:mysql://localhost:3306/minecraft");
         config.addDefault("mysql-table-prefix", "");
         
-        writer.addComment("save-period",  "How often in minutes you want it to save.  This must be a non-zero number");
+        writer.addComment("save-period",  "每次保存的时间间隔, 必须是一个大于0的数");
         config.addDefault("save-period", 10);
         
         writer.addComment("save-on-disconnect",
-                "Should player data be saved on disconnect?",
-                "Player data is always periodically auto-saved and autosaved during a clean shutdown.",
-                "Only enable this if you have a multi-server setup, or have a really good reason for enabling this.",
-                "Turning this on will decrease database performance.");
+                "在玩家退出游戏时保存数据",
+                "玩家的数据是周期性的保存的.",
+                "仅在你运行多个服务器或者有一个清楚的注意来做这件事.",
+                "开启这一功能会降低数据库性能.");
         config.addDefault("save-on-disconnect", false);
         
-        writer.addComment("broadcast-on-skill-up", "Do all players get a message when somone goes up a skill level?");
+        writer.addComment("broadcast-on-skill-up", "在玩家技能升级时其他玩家是否能收到提示");
         config.addDefault("broadcast-on-skill-up", false);
         
-        writer.addComment("broadcast-on-level-up", "Do all players get a message when somone goes up a level?");
+        writer.addComment("broadcast-on-level-up", "在玩家职业升级时其他玩家是否能收到提示");
         config.addDefault("broadcast-on-level-up", false);
         
         writer.addComment("max-jobs",
-                "Maximum number of jobs a player can join.",
-                "Use 0 for no maximum"
+                "玩家最多可以加入的职业数量.",
+                " 0 表示没有限制"
         );
         config.addDefault("max-jobs", 3);
         
-        writer.addComment("hide-jobs-without-permission", "Hide jobs from player if they lack the permission to join the job");
+        writer.addComment("hide-jobs-without-permission", "对玩家隐藏没有权限担任的职业");
         config.addDefault("hide-jobs-without-permission", false);
         
-        writer.addComment("enable-pay-near-spawner", "option to allow payment to be made when killing mobs from a spawner");
+        writer.addComment("enable-pay-near-spawner", "允许玩家在刷怪笼周围杀死怪物时获得经验");
         config.addDefault("enable-pay-near-spawner", false);
         
-        writer.addComment("enable-pay-creative", "option to allow payment to be made in creative mode");
+        writer.addComment("enable-pay-creative", "允许玩家在创造模式时获得收益");
         config.addDefault("enable-pay-creative", false);
         
-        writer.addComment("add-xp-player", "Adds the Jobs xp recieved to the player's Minecraft XP bar");
+        writer.addComment("add-xp-player", "将玩家的Minecraft经验条作为职业插件的经验条");
         config.addDefault("add-xp-player", false);
         
-        writer.addComment("modify-chat", "Modifys chat to add chat titles.  If you're using a chat manager, you may add the tag {jobs} to your chat format and disable this.");
+        writer.addComment("modify-chat", "修改聊天标题.  如果你使用其他聊天插件,添加 {jobs} 到你的插件的聊天格式中.");
         config.addDefault("modify-chat", true);
         
-        writer.addComment("economy-batch-delay", "Changes how often, in seconds, players are paid out.  Default is 5 seconds.",
-                "Setting this too low may cause tick lag.  Increase this to improve economy performance (at the cost of delays in payment)");
+        writer.addComment("economy-batch-delay", "付给玩家收益的间隔时间.  默认是 5 秒.",
+                "太低的值会影响性能.  请根据实际情况来设置.");
         config.addDefault("economy-batch-delay", 5);
         
         String storageMethod = config.getString("storage-method");
         if(storageMethod.equalsIgnoreCase("mysql")) {
             String username = config.getString("mysql-username");
             if(username == null) {
-                Jobs.getPluginLogger().severe("mysql-username property invalid or missing");
+                Jobs.getPluginLogger().severe("mysql-username 属性无效");
             }
             String password = config.getString("mysql-password");
             String url = config.getString("mysql-url");
@@ -153,20 +149,20 @@ public class BukkitJobsConfiguration extends JobsConfiguration {
         } else if(storageMethod.equalsIgnoreCase("h2")) {
             File h2jar = new File(plugin.getDataFolder(), "h2.jar");
             if (!h2jar.exists()) {
-                Jobs.getPluginLogger().info("[Jobs] H2 library not found, downloading...");
+                Jobs.getPluginLogger().info("[职业插件] H2 数据库组件下载中...");
                 try {
                     FileDownloader.downloadFile(new URL("http://dev.bukkit.org/media/files/692/88/h2-1.3.171.jar"), h2jar);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
-                    Jobs.getPluginLogger().severe("Could not download database library!");
+                    Jobs.getPluginLogger().severe("无法下载 H2 数据库组件!");
                 }
             }
             if (plugin.isEnabled()) {
                 try {
                     Jobs.getJobsClassloader().addFile(h2jar);
                 } catch (IOException e) {
-                    Jobs.getPluginLogger().severe("Could not load database library!");
+                    Jobs.getPluginLogger().severe("无法加载 H2 数据库组件!");
                 }
                 if (plugin.isEnabled())
                     Jobs.setDAO(new JobsDAOH2());
@@ -174,12 +170,12 @@ public class BukkitJobsConfiguration extends JobsConfiguration {
         } else if(storageMethod.equalsIgnoreCase("sqlite")) {
             Jobs.setDAO(new JobsDAOSQLite());
         } else {
-            Jobs.getPluginLogger().warning("Invalid storage method!  Defaulting to sqlite!");
+            Jobs.getPluginLogger().warning("无效的储存方式!  重置到 sqlite!");
             Jobs.setDAO(new JobsDAOSQLite());
         }
         
         if (config.getInt("save-period") <= 0) {
-            Jobs.getPluginLogger().severe("Save period must be greater than 0!  Defaulting to 10 minutes!");
+            Jobs.getPluginLogger().severe("保存间隔 0!  重置到 10 分钟!");
             config.set("save-period", 10);
         }
         
@@ -193,7 +189,7 @@ public class BukkitJobsConfiguration extends JobsConfiguration {
             }
         } catch (IllegalArgumentException e) {
             locale = Locale.getDefault();
-            Jobs.getPluginLogger().warning("Invalid locale \""+localeString+"\" defaulting to "+locale.getLanguage());
+            Jobs.getPluginLogger().warning("无效的语言 \""+localeString+"\" 重置到 "+locale.getLanguage());
         }
         
         savePeriod = config.getInt("save-period");
@@ -249,17 +245,17 @@ public class BukkitJobsConfiguration extends JobsConfiguration {
         File f = new File(plugin.getDataFolder(), "titleConfig.yml");
         YamlConfiguration conf = YamlConfiguration.loadConfiguration(f);
         StringBuilder header = new StringBuilder()
-            .append("Title configuration")
+            .append("职称配置")
             .append(System.getProperty("line.separator"))
             .append(System.getProperty("line.separator"))
-            .append("Stores the titles people gain at certain levels.")
+            .append("储存在到达一定等级时所显示的职业称号.")
             .append(System.getProperty("line.separator"))
-            .append("Each title requres to have a name, short name (used when the player has more than")
+            .append("每个职称都有一个长名称的和短名称")
             .append(System.getProperty("line.separator"))
             .append("1 job) the colour of the title and the level requrirement to attain the title.")
             .append(System.getProperty("line.separator"))
             .append(System.getProperty("line.separator"))
-            .append("It is recommended but not required to have a title at level 0.")
+            .append("虽然不是必需的,但是建议给每个职业在等级0时设置一个职称.")
             .append(System.getProperty("line.separator"))
             .append(System.getProperty("line.separator"))
             .append("Titles are completely optional.")
@@ -302,19 +298,19 @@ public class BukkitJobsConfiguration extends JobsConfiguration {
             int levelReq = conf.getInt("Titles."+titleKey+".levelReq", -1);
             
             if (titleName == null) {
-                Jobs.getPluginLogger().severe("Title " + titleKey + " has an invalid Name property. Skipping!");
+                Jobs.getPluginLogger().severe("职称 " + titleKey + " Name 属性无效. 跳过!");
                 continue;
             }
             if (titleShortName == null) {
-                Jobs.getPluginLogger().severe("Title " + titleKey + " has an invalid ShortName property. Skipping!");
+                Jobs.getPluginLogger().severe("职称 " + titleKey + " ShortName 属性无效. 跳过!");
                 continue;
             }
             if (titleColor == null) {
-                Jobs.getPluginLogger().severe("Title " + titleKey + "has an invalid ChatColour property. Skipping!");
+                Jobs.getPluginLogger().severe("职称 " + titleKey + " ChatColour 属性无效. 跳过!");
                 continue;
             }
             if (levelReq <= -1) {
-                Jobs.getPluginLogger().severe("Title " + titleKey + " has an invalid levelReq property. Skipping!");
+                Jobs.getPluginLogger().severe("职称 " + titleKey + " levelReq 属性无效. 跳过!");
                 continue;
             }
             
@@ -342,17 +338,15 @@ public class BukkitJobsConfiguration extends JobsConfiguration {
         conf.options().copyDefaults(true);
         StringBuilder header = new StringBuilder();
         
-        header.append("Restricted area configuration")
+        header.append("禁用区域")
             .append(System.getProperty("line.separator"))
             .append(System.getProperty("line.separator"))
-            .append("Configures restricted areas where you cannot get experience or money")
-            .append(System.getProperty("line.separator"))
-            .append("when performing a job.")
+            .append("设置一些在工作时不能得到经验或者钱的区域")
             .append(System.getProperty("line.separator"))
             .append(System.getProperty("line.separator"))
-            .append("The multiplier changes the experience/money gains in an area.")
+            .append("参数multiplier是职业收益的乘数.")
             .append(System.getProperty("line.separator"))
-            .append("A multiplier of 0.0 means no money or xp, while 0.5 means you will get half the normal money/exp")
+            .append("0.0的值意味着不能得到任何收益, 0.5意味着得到平时一半的收益")
             .append(System.getProperty("line.separator"))
             .append(System.getProperty("line.separator"))
             .append("restrictedareas:")

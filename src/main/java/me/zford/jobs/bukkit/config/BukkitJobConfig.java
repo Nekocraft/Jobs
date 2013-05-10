@@ -64,7 +64,7 @@ public class BukkitJobConfig extends JobConfig {
             try {
                 f.createNewFile();
             } catch (IOException e) {
-                Jobs.getPluginLogger().severe("Unable to create jobConfig.yml!  No jobs were loaded!");
+                Jobs.getPluginLogger().severe("不能够创建jobConfig.yml文件!没有职业被加载!");
                 return;
             }
         }
@@ -74,19 +74,19 @@ public class BukkitJobConfig extends JobConfig {
             conf.load(f);
         } catch (Exception e) {
             Jobs.getServer().getLogger().severe("==================== Jobs ====================");
-            Jobs.getServer().getLogger().severe("Unable to load jobConfig.yml!");
-            Jobs.getServer().getLogger().severe("Check your config for formatting issues!");
-            Jobs.getServer().getLogger().severe("No jobs were loaded!");
-            Jobs.getServer().getLogger().severe("Error: "+e.getMessage());
+            Jobs.getServer().getLogger().severe("无法载入jobConfig.yml文件!");
+            Jobs.getServer().getLogger().severe("请检查您的配置格式设置问题!");
+            Jobs.getServer().getLogger().severe("没有职业被加载!");
+            Jobs.getServer().getLogger().severe("错误: "+e.getMessage());
             Jobs.getServer().getLogger().severe("==============================================");
             return;
         }
         conf.options().header(new StringBuilder()
-            .append("Jobs configuration.").append(System.getProperty("line.separator"))
+            .append("Jobs插件配置.").append(System.getProperty("line.separator"))
             .append(System.getProperty("line.separator"))
-            .append("Stores information about each job.").append(System.getProperty("line.separator"))
+            .append("储存有关每个职业的信息.").append(System.getProperty("line.separator"))
             .append(System.getProperty("line.separator"))
-            .append("For example configurations, visit http://dev.bukkit.org/server-mods/jobs/.").append(System.getProperty("line.separator"))
+            .append("配置例子, visit http://dev.bukkit.org/server-mods/jobs/.").append(System.getProperty("line.separator"))
             .toString());
         ConfigurationSection jobsSection = conf.getConfigurationSection("Jobs");
         if (jobsSection == null) {
@@ -96,7 +96,7 @@ public class BukkitJobConfig extends JobConfig {
             ConfigurationSection jobSection = jobsSection.getConfigurationSection(jobKey);
             String jobName = jobSection.getString("fullname");
             if (jobName == null) {
-                Jobs.getPluginLogger().warning("Job " + jobKey + " has an invalid fullname property. Skipping job!");
+                Jobs.getPluginLogger().warning("职业 " + jobKey + " 属性无效. 跳过该职业!");
                 continue;
             }
             
@@ -111,7 +111,7 @@ public class BukkitJobConfig extends JobConfig {
 
             String jobShortName = jobSection.getString("shortname");
             if (jobShortName == null) {
-                Jobs.getPluginLogger().warning("Job " + jobKey + " is missing the shortname property.  Skipping job!");
+                Jobs.getPluginLogger().warning("职业 " + jobKey + " 属性丢失. 跳过该职业!");
                 continue;
             }
             
@@ -122,12 +122,12 @@ public class BukkitJobConfig extends JobConfig {
                 color = ChatColor.matchColor(jobSection.getString("ChatColour", ""));
                 if (color == null) {
                     color = ChatColor.WHITE;
-                    Jobs.getPluginLogger().warning("Job " + jobKey + " has an invalid ChatColour property.  Defaulting to WHITE!");
+                    Jobs.getPluginLogger().warning("职业 " + jobKey + " ChatColour 属性无效. 重置到 WHITE!");
                 }
             }
             DisplayMethod displayMethod = DisplayMethod.matchMethod(jobSection.getString("chat-display", ""));
             if (displayMethod == null) {
-                Jobs.getPluginLogger().warning("Job " + jobKey + " has an invalid chat-display property. Defaulting to None!");
+                Jobs.getPluginLogger().warning("职业 " + jobKey + " chat-display 属性无效. 重置到 None!");
                 displayMethod = DisplayMethod.NONE;
             }
             
@@ -140,7 +140,7 @@ public class BukkitJobConfig extends JobConfig {
                 maxExpEquation.setVariable("joblevel", 1);
                 maxExpEquation.getValue();
             } catch(Exception e) {
-                Jobs.getPluginLogger().warning("Job " + jobKey + " has an invalid leveling-progression-equation property. Skipping job!");
+                Jobs.getPluginLogger().warning("职业 " + jobKey + " leveling-progression-equation 属性无效. 跳过该职业!");
                 continue;
             }
             
@@ -154,7 +154,7 @@ public class BukkitJobConfig extends JobConfig {
                 incomeEquation.setVariable("baseincome", 1);
                 incomeEquation.getValue();
             } catch(Exception e) {
-                Jobs.getPluginLogger().warning("Job " + jobKey + " has an invalid income-progression-equation property. Skipping job!");
+                Jobs.getPluginLogger().warning("职业 " + jobKey + " income-progression-equation 属性无效. 跳过该职业!");
                 continue;
             }
             
@@ -168,7 +168,7 @@ public class BukkitJobConfig extends JobConfig {
                 expEquation.setVariable("baseexperience", 1);
                 expEquation.getValue();
             } catch(Exception e) {
-                Jobs.getPluginLogger().warning("Job " + jobKey + " has an invalid experience-progression-equation property. Skipping job!");
+                Jobs.getPluginLogger().warning("职业 " + jobKey + " experience-progression-equation 属性无效. 跳过该职业!");
                 continue;
             }
             
@@ -181,7 +181,7 @@ public class BukkitJobConfig extends JobConfig {
                     
                     String node = permissionKey.toLowerCase();
                     if (permissionSection == null) {
-                        Jobs.getPluginLogger().warning("Job " + jobKey + " has an invalid permission key" + permissionKey + "!");
+                        Jobs.getPluginLogger().warning("职业 " + jobKey + " 使用了无效的权限值 " + permissionKey + "!");
                         continue;
                     }
                     boolean value = permissionSection.getBoolean("value", true);
@@ -223,7 +223,7 @@ public class BukkitJobConfig extends JobConfig {
                             // Break and Place actions MUST be blocks
                             if (actionType == ActionType.BREAK || actionType == ActionType.PLACE) {
                                 if (!material.isBlock()) {
-                                    Jobs.getPluginLogger().warning("Job " + jobKey + " has an invalid " + actionType.getName() + " type property: " + key + "! Material must be a block!");
+                                    Jobs.getPluginLogger().warning("职业 " + jobKey + " 的 " + actionType.getName() + " 属性无效: " + key + "! 材料必须是方块!");
                                     continue;
                                 }
                             }
@@ -239,10 +239,10 @@ public class BukkitJobConfig extends JobConfig {
                              * configurations broken.
                              */
                             if (material == Material.REDSTONE_ORE) {
-                                Jobs.getPluginLogger().warning("Job "+jobKey+" is using REDSTONE_ORE instead of GLOWING_REDSTONE_ORE.");
-                                Jobs.getPluginLogger().warning("Automatically changing block to GLOWING_REDSTONE_ORE.  Please update your configuration.");
-                                Jobs.getPluginLogger().warning("In vanilla minecraft, REDSTONE_ORE changes to GLOWING_REDSTONE_ORE when interacted with.");
-                                Jobs.getPluginLogger().warning("In the future, Jobs using REDSTONE_ORE instead of GLOWING_REDSTONE_ORE may fail to work correctly.");
+                                Jobs.getPluginLogger().warning("职业 "+jobKey+" 使用 REDSTONE_ORE 而不是 GLOWING_REDSTONE_ORE");
+                                Jobs.getPluginLogger().warning("自动更改方块为 GLOWING_REDSTONE_ORE. 请更新您的配置.");
+                                Jobs.getPluginLogger().warning("在原版Minecraft中, 当在互动 REDSTONE_ORE 时将会变为 GLOWING_REDSTONE_ORE.");
+                                Jobs.getPluginLogger().warning("在后续版本中, Jobs插件使用 REDSTONE_ORE 替代 GLOWING_REDSTONE_ORE 时将可能无法正常工作.");
                                 material = Material.GLOWING_REDSTONE_ORE;
                             }
                             // END HACK
@@ -262,7 +262,7 @@ public class BukkitJobConfig extends JobConfig {
                         }
                         
                         if (type == null) {
-                            Jobs.getPluginLogger().warning("Job " + jobKey + " has an invalid " + actionType.getName() + " type property: " + key + "!");
+                            Jobs.getPluginLogger().warning("职业 " + jobKey + " 的 " + actionType.getName() + " 属性无效: " + key + "!");
                             continue;
                         }
                         

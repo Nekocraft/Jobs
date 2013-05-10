@@ -66,7 +66,7 @@ public class JobsPlugin extends JavaPlugin {
                         
                         if (economy != null && economy.isEnabled()) {
                             Jobs.setEconomy(new VaultEconomy(economy));
-                            Jobs.getPluginLogger().info("["+getDescription().getName()+"] Successfully linked with Vault.");
+                            Jobs.getPluginLogger().info("["+getDescription().getName()+"] 成功与Vault插件链接.");
                             return;
                         }
                     }
@@ -75,9 +75,9 @@ public class JobsPlugin extends JavaPlugin {
                 // no Vault found
                 Jobs.setEconomy(new BlackholeEconomy());
                 Jobs.getServer().getLogger().severe("==================== Jobs ====================");
-                Jobs.getServer().getLogger().severe("Vault is required by this plugin for economy support!");
-                Jobs.getServer().getLogger().severe("Please install Vault first!");
-                Jobs.getServer().getLogger().severe("You can find the latest version here:");
+                Jobs.getServer().getLogger().severe("需要Vault插件提供经济系统支持!");
+                Jobs.getServer().getLogger().severe("请先安装Vault!");
+                Jobs.getServer().getLogger().severe("您可以从这里得到最新版:");
                 Jobs.getServer().getLogger().severe("http://dev.bukkit.org/server-mods/vault/");
                 Jobs.getServer().getLogger().severe("==============================================");
             }
