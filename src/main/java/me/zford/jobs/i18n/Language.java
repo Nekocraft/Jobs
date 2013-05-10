@@ -18,14 +18,23 @@
 
 package me.zford.jobs.i18n;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.Properties;
 
 public class Language {
-    private static ResourceBundle bundle;
-    
+    private static Properties bundle;
+
     static {
-        bundle = ResourceBundle.getBundle("i18n/messages");
+        bundle = new Properties();
+        try {
+            bundle.load(new InputStreamReader(Language.class.getResourceAsStream("/i18n/messages.properties"), "UTF-8"));
+        } catch (IOException e) {
+        }
+    }
+
     }
     
     private Language() { }
@@ -34,7 +43,22 @@ public class Language {
      * Reloads the config
      */
     public static void reload(Locale locale) {
-        bundle = ResourceBundle.getBundle("i18n/messages", locale);
+        InputStream stream = null;
+        try {
+            stream = Language.class.getResourceAsStream("/i18n/messages_" + locale.toLanguageTag() + ".properties");
+        } catch (Exception e) {
+        }
+        if (stream == null) {
+            try {
+                stream = Language.class.getResourceAsStream("/i18n/messages_" + locale.getLanguage() + ".properties");
+            } catch (Exception e) {
+            }
+        }
+
+        try {
+            bundle.load(new InputStreamReader(stream, "UTF-8"));
+        } catch (Exception e) {
+        }
     }
     
     /**
@@ -43,7 +67,7 @@ public class Language {
      * @return the message
      */
     public static String getMessage(String key) {
-        return bundle.getString(key);
+        return bundle.get(key).toString();
     }
     
     public static boolean containsKey(String key) {
