@@ -44,18 +44,16 @@ public class Language {
         InputStream stream = null;
         try {
             stream = Language.class.getResourceAsStream("/i18n/messages_" + locale.toLanguageTag() + ".properties");
-        } catch (Exception e) {
-        }
+        } catch (Exception e) { }
         if (stream == null) {
             try {
                 stream = Language.class.getResourceAsStream("/i18n/messages_" + locale.getLanguage() + ".properties");
-            } catch (Exception e) {
-            }
+            } catch (Exception e) { }
         }
-
-        try {
-            bundle.load(new InputStreamReader(stream, "UTF-8"));
-        } catch (Exception e) {
+        if (stream != null) {
+            try {
+                bundle.load(new InputStreamReader(stream, "UTF-8"));
+            } catch (Exception e) { }
         }
     }
     
