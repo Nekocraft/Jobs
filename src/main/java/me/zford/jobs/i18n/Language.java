@@ -19,6 +19,7 @@
 package me.zford.jobs.i18n;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Locale;
 import java.util.Properties;
@@ -41,9 +42,21 @@ public class Language {
      * Reloads the config
      */
     public static void reload(Locale locale) {
+        InputStream stream = null;
         try {
-            bundle.load(new InputStreamReader(Language.class.getResourceAsStream("/i18n/messages_" + locale.toString() + ".properties"), "UTF-8"));
-        } catch (IOException e) {
+            stream = Language.class.getResourceAsStream("/i18n/messages_" + locale.toLanguageTag() + ".properties");
+        } catch (Exception e) {
+        }
+        if (stream == null) {
+            try {
+                stream = Language.class.getResourceAsStream("/i18n/messages_" + locale.getLanguage() + ".properties");
+            } catch (Exception e) {
+            }
+        }
+
+        try {
+            bundle.load(new InputStreamReader(stream, "UTF-8"));
+        } catch (Exception e) {
         }
     }
 
